@@ -159,7 +159,10 @@ namespace IncludeToolbox
                         {
                             using (var edit = textBuffer.CreateEdit())
                             {
-                                edit.Delete(edit.Snapshot.Lines.ElementAt(currentLine).ExtentIncludingLineBreak);
+                                if (settings.KeepLineBreaks)
+                                    edit.Delete(edit.Snapshot.Lines.ElementAt(currentLine).Extent);
+                                else
+                                    edit.Delete(edit.Snapshot.Lines.ElementAt(currentLine).ExtentIncludingLineBreak);
                                 edit.Apply();
                             }
                             outputWaitEvent.Set();
